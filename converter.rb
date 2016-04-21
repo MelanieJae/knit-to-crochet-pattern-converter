@@ -111,7 +111,8 @@ suggest1stnewsize(@replyyarn)
 
 puts "Ok, thank you. Just one more question: do you tend to knit/crochet tightly, average or loosely?"
 @replytight = gets.chomp
-finalsizesuggest(@replytight)
+puts "I suggest, since you are working with #{@replyyarn} and you knit #{@replytight}, that you switch from a size #{@replysizeknit} needle to a size #{finalsizesuggest(@replytight)} needle."
+
 
 
 # based on user's answers, function suggests either the next larger
