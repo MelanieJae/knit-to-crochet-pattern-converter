@@ -16,13 +16,25 @@
 
 # ------------------------ functions --------------------------
 
+def suggestionintro()
+	puts "What kind of yarn requires the needle size you're trying to convert?"
+	@replyyarn = gets.chomp
+	suggest1stnewsize(@replyyarn)
+end
+
+def suggeststep2()
+	puts "Ok, thank you. Just one more question: do you tend to knit/crochet tightly, average or loosely?"
+	@replytight = gets.chomp
+	convknit2crochet(finalsizesuggest(@replytight))
+end
+
 # function for converting knit needle size to crochet hook size when the equivalent hook size exists.
 def convknit2crochet(knitsizeUS)
 	@knitnsizeUS.each_index do |k|
 		if @knitnsizeUS[k] == knitsizeUS	
-			return @crochethsize[k]
+			finalconvoutput(@crochethsize[k])
 		# else
-		# 	return knitsizeUS	
+		#  	suggestionintro()	
 		end
 	end
 end
@@ -31,7 +43,9 @@ end
 def convcrochet2knit(crochetsize)	
 	@crochethsize.each_index do |c|
 		if @replysizecrochet == @crochethsize[c]
-			return knitnsizeUS[c]
+			finalconvoutput(@knitnsizeUS[c])
+		# else
+		# 	suggestintro()
 		end
 	end
 end
@@ -46,9 +60,9 @@ def suggest1stnewsize(yarn)
 	if yarn == @yarn[0] #| yarn == yarn[1]
 		if @knitnsizeUS.include? (@replysizeknit - 1)
 			newknitsize = (@replysizeknit - 1)
-			convknit2crochet(newknitsize)
+			suggeststep2()
 		else
-			return yarn
+			finaloutputempty()
 		end
 	end
 end
@@ -67,10 +81,34 @@ def finalsizesuggest(tightness)
 	else
 		if @knitnsizeUS.include? (@replysizeknit + 1)
 			finalsize = @replysizeknit + 1
+			finalsuggestoutput(@replyyarn,tightness)
 		else
-			return @replysizeknit
+			finalsuggestoutputempty()
 		end
 	end
+end
+
+def finalconvoutput(equivsize)
+	# puts equivsize
+	if @replypattern["knit"]
+		equivtool = "crochet hook"
+	else
+		equivtool = "knitting needle"
+	end
+	
+	puts "The equivalent #{equivtool} size for this pattern is: #{equivsize}"
+
+end
+
+def finalsuggestoutput(yarn,tightness)
+	if @replypattern ["knit"]
+		puts "I suggest, since you are working with #{yarn} and you knit #{tightness} that you use a size #{@finalcrochetsuggest} crochet hook."
+	end
+end
+
+def finalsuggestoutputempty()
+	puts "Sorry, but here does not seem to be any valid suggestion for a new needle or crochet size that would be suitable for the pattern you are following.
+	This may be due to either type of yarn the pattern calls for or the size of needle or hook you're trying to convert. "
 end
 
 # ----------------------------------------------------------------
@@ -79,10 +117,11 @@ end
 # UNCOMMENT ONLY WHEN TESTING....
 # puts @knitnsizeUS.length == @crochethsize.length
 
+# ------------------ output to/from user -------------------------
 puts "Is the pattern a knitting pattern or a crochet pattern?"
-replypattern = gets.chomp
+@replypattern = gets.chomp
 
-if replypattern ["knit"]
+if @replypattern ["knit"]
 	puts "What needle size does the pattern require?"
 	# gets.chomp reads needle sizes inputted by user as strings so a conversion of the user's input for needle size to an integer is needed
 	# ***only when converting from knit size to crochet size**** to comply with float/integer quality of entries in the knit array.
@@ -94,28 +133,20 @@ else
 	# and then bounce them down to the knit array search/match loop
 	puts "What size hook does the pattern require?"
 	@replysizecrochet = gets.chomp
+	convcrochet2knit(@replysizecrochet)
 end
 
+# ----------------------------------------------------------------
 
 # loops through knit needle size array to match with what the user put in and
 # returns the equivalent crochet hook size from the crochet hook size array or returns 
-
 
 # loops through crochet hook size array to match with what the user put in and
 # returns the equivalent knitting needle size.  
 
 
-#if equiv. needle or hook size doesn't exist
-puts "What kind of yarn requires the needle size you're trying to convert?"
-@replyyarn = gets.chomp
-suggest1stnewsize(@replyyarn)
-					
 
-puts "Ok, thank you. Just one more question: do you tend to knit/crochet tightly, average or loosely?"
-@replytight = gets.chomp
-#@finalknitsuggest = finalsizesuggest(@replytight)
-@finalcrochetsuggest = convknit2crochet(finalsizesuggest(@replytight))
-puts "I suggest, since you are working with #{@replyyarn} and you knit #{@replytight} that you use a size #{@finalcrochetsuggest} crochet hook."
+
 
 
 
