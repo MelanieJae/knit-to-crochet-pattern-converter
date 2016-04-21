@@ -33,8 +33,8 @@ def convknit2crochet(knitsizeUS)
 	@knitnsizeUS.each_index do |k|
 		if @knitnsizeUS[k] == knitsizeUS	
 			finalconvoutput(@crochethsize[k])
-		# else
-		#  	suggestionintro()	
+		else
+		  	suggestionintro()	
 		end
 	end
 end
@@ -62,7 +62,7 @@ def suggest1stnewsize(yarn)
 			newknitsize = (@replysizeknit - 1)
 			suggeststep2()
 		else
-			finaloutputempty()
+			finalsuggestoutputempty()
 		end
 	end
 end
@@ -111,6 +111,9 @@ def finalsuggestoutputempty()
 	This may be due to either type of yarn the pattern calls for or the size of needle or hook you're trying to convert. "
 end
 
+def oddsize()
+	puts "I'm sorry but this converter can only give or suggest equivalent hook or needle sizes for knitting needle sizes 0-11 and crochet hook sizes B-L. Sizes outside this range do not have a suitable equivalent needle or hook size that would maintain the integrity of your pattern. Would you like to try another size or pattern?"
+end
 # ----------------------------------------------------------------
 
 # a check for edits to size arrays above
@@ -127,13 +130,21 @@ if @replypattern ["knit"]
 	# ***only when converting from knit size to crochet size**** to comply with float/integer quality of entries in the knit array.
 	#If .to_i is not used, knit size conversion to crochet size below does not execute.
 	@replysizeknit = gets.chomp.to_i
-	convknit2crochet(@replysizeknit)
+	if @knitnsizeUS.include? @replysizeknit
+		convknit2crochet(@replysizeknit)
+	else
+		oddsize()
+	end
 else
 	# ADD A BLOCK HERE TO HANDLE TYPOS IN USER INPUT, SOMETHING LIKE "if replypattern != "crochet", exit the loop and ask them if they meant 'knit'" 
 	# and then bounce them down to the knit array search/match loop
 	puts "What size hook does the pattern require?"
 	@replysizecrochet = gets.chomp
-	convcrochet2knit(@replysizecrochet)
+	if @crochethsize.include? @replysizecrochet
+		convcrochet2knit(@replysizecrochet)
+	else
+		oddsize()
+	end
 end
 
 # ----------------------------------------------------------------
