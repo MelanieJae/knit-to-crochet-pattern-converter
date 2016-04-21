@@ -21,13 +21,18 @@ def convknit2crochet(knitsizeUS)
 	@knitnsizeUS.each_index do |k|
 		if @knitnsizeUS[k] == knitsizeUS	
 			return @crochethsize[k]
-# 		else
-# 		 	# warning saying end of knitnsizeUS array has been reached, the user input needle size was not matched to any entry in the knit size array
-# # so there is no equivalent crochet hook size....
-# 			puts "Sorry, there is no equivalent crochet hook size. Hang on a sec for a couple more questions and a suggested hook size..."
-		 	return @knitnsizeUS[k]	 		
-		end	
+		# else
+		# 	return knitsizeUS	
+		end
+	end
+end
 
+# function for converting crochet hook size to knitting needle size when the equivalent needle size exists.
+def convcrochet2knit(crochetsize)	
+	@crochethsize.each_index do |c|
+		if @replysizecrochet == @crochethsize[c]
+			return knitnsizeUS[c]
+		end
 	end
 end
 
@@ -98,12 +103,9 @@ end
 
 # loops through crochet hook size array to match with what the user put in and
 # returns the equivalent knitting needle size.  
-@crochethsize.each_index do |c|
-	if @replysizecrochet == @crochethsize[c]
-		puts "The equivalent knitting needle size is: " + "#{knitnsizeUS[c]}"
-	end
-end
 
+
+#if equiv. needle or hook size doesn't exist
 puts "What kind of yarn requires the needle size you're trying to convert?"
 @replyyarn = gets.chomp
 suggest1stnewsize(@replyyarn)
@@ -113,8 +115,7 @@ puts "Ok, thank you. Just one more question: do you tend to knit/crochet tightly
 @replytight = gets.chomp
 #@finalknitsuggest = finalsizesuggest(@replytight)
 @finalcrochetsuggest = convknit2crochet(finalsizesuggest(@replytight))
-puts @finalcrochetsuggest
-puts "I suggest, since you are working with #{@replyyarn} and you knit #{@replytight} that you use a size #{finalsizesuggest(@replytight)} needle/ size #{@finalcrochetsuggest} crochet hook."
+puts "I suggest, since you are working with #{@replyyarn} and you knit #{@replytight} that you use a size #{@finalcrochetsuggest} crochet hook."
 
 
 
