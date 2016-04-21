@@ -18,14 +18,13 @@
 
 # function for converting knit needle size to crochet hook size when the equivalent hook size exists.
 def convknit2crochet(knitsizeUS)
-	puts knitsizeUS
 	@knitnsizeUS.each_index do |k|
 		if @knitnsizeUS[k] == knitsizeUS	
-			puts "The equivalent crochet hook size is: " + "#{@crochethsize[k]}"
-		else
-		 	# warning saying end of knitnsizeUS array has been reached, the user input needle size was not matched to any entry in the knit size array
-# so there is no equivalent crochet hook size....
-			puts "Sorry, there is no equivalent crochet hook size. Hang on a sec for a couple more questions and a suggested hook size..."
+			return @crochethsize[k]
+# 		else
+# 		 	# warning saying end of knitnsizeUS array has been reached, the user input needle size was not matched to any entry in the knit size array
+# # so there is no equivalent crochet hook size....
+# 			puts "Sorry, there is no equivalent crochet hook size. Hang on a sec for a couple more questions and a suggested hook size..."
 		 	return @knitnsizeUS[k]	 		
 		end	
 
@@ -72,7 +71,8 @@ end
 # ----------------------------------------------------------------
 
 # a check for edits to size arrays above
-puts @knitnsizeUS.length == @crochethsize.length
+# UNCOMMENT ONLY WHEN TESTING....
+# puts @knitnsizeUS.length == @crochethsize.length
 
 puts "Is the pattern a knitting pattern or a crochet pattern?"
 replypattern = gets.chomp
@@ -111,7 +111,10 @@ suggest1stnewsize(@replyyarn)
 
 puts "Ok, thank you. Just one more question: do you tend to knit/crochet tightly, average or loosely?"
 @replytight = gets.chomp
-puts "I suggest, since you are working with #{@replyyarn} and you knit #{@replytight}, that you switch from a size #{@replysizeknit} needle to a size #{finalsizesuggest(@replytight)} needle."
+#@finalknitsuggest = finalsizesuggest(@replytight)
+@finalcrochetsuggest = convknit2crochet(finalsizesuggest(@replytight))
+puts @finalcrochetsuggest
+puts "I suggest, since you are working with #{@replyyarn} and you knit #{@replytight} that you use a size #{finalsizesuggest(@replytight)} needle/ size #{@finalcrochetsuggest} crochet hook."
 
 
 
